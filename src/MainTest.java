@@ -7,10 +7,16 @@ public class MainTest extends CoreTestCase{
     @Test
     public void myFirstTest() {
 
-        int a = Math.myltiply(5);
+        int a = Math.calc(5,4,'+');
         System.out.println(a);
 
-        int b = Math.myltiply(10,15);
+        int b = Math.calc(5,0,'-');
+        System.out.println(b);
+
+        int c = Math.calc(5,4,'0');
+        System.out.println(a);
+
+        int d = Math.calc(5,0,'/');
         System.out.println(b);
     }
 
