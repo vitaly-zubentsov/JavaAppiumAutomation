@@ -4,8 +4,8 @@ import org.junit.Test;
 public class MainClassTest extends MainClass {
 
     @Test
-    public void testGetClassNumber() {
+    public void testGetClassString() {
 
-        Assert.assertTrue("number from method getClassNumber() < 46", this.getClassNumber() > 45);
+        Assert.assertTrue("string from method getClassString() don't contain substring hello or Hello", (this.getClassString().contains("Hello") ) | (this.getClassString().contains("hello")));
     }
 }
