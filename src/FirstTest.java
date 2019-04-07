@@ -40,7 +40,9 @@ public class FirstTest {
 
         element_to_init_search.click();
 
-        WebElement element_to_init_search_line = waitForElementPresentByXpath("//*[contains(@text,'Search…')]", "Cannot find search input", 5);
+        WebElement element_to_init_search_line = waitForElementPresentByXpath(
+                "//*[contains(@text,'Search…')]",
+                "Cannot find search input");
 
 
                 //driver.findElementByXPath("//*[contains(@text,'Search…')]");
@@ -53,13 +55,18 @@ public class FirstTest {
         driver.quit();
     }
 
-    private WebElement waitForElementPresentByXpath(String xpath, String eroor_message, long timeoutInSeconds) {
+    private WebElement waitForElementPresentByXpath(String xpath, String error_message, long timeoutInSeconds) {
 
         WebDriverWait wait = new WebDriverWait(driver,timeoutInSeconds);
-        wait.withMessage(eroor_message + "\n");
+        wait.withMessage(error_message + "\n");
         By by = By.xpath(xpath);
         return wait.until(
                 ExpectedConditions.presenceOfElementLocated(by)
         );
+    }
+
+    private WebElement waitForElementPresentByXpath(String xpath, String error_message) {
+
+        return waitForElementPresentByXpath(xpath, error_message,5);
     }
 }
