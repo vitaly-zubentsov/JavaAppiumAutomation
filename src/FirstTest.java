@@ -46,8 +46,13 @@ public class FirstTest {
 
 
                 //driver.findElementByXPath("//*[contains(@text,'Search…')]");
-        element_to_init_search_line.sendKeys("Appium");
+        element_to_init_search_line.sendKeys("Java");
        // System.out.println("First test run");
+        waitForElementPresentByXpath(
+                "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']",
+                "Cannot find 'Object-oriented programming language' topic searching by 'JAVA'",
+                15
+        );
     }
 
     @After
