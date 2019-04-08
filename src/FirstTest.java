@@ -47,8 +47,14 @@ public class FirstTest {
                 5
         );
 
+        waitForElementAndCompareTextInIt(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Search…",
+                "Cannot find search input",
+                5
+        );
 
-        waitForElementAndSendKeys(
+     /*   waitForElementAndSendKeys(
                 By.xpath("//*[contains(@text,'Search…')]"),
                 "Java",
                 "Cannot find search input",
@@ -59,10 +65,10 @@ public class FirstTest {
                 By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
                 "Cannot find 'Object-oriented programming language' topic searching by 'JAVA'",
                 15
-        );
+        );*/
     }
 
-    @Test
+   /* @Test
     public void testCancelSearch() {
 
         waitForElementAndClick(
@@ -127,14 +133,14 @@ public class FirstTest {
                 15
         );
 
-        String article_title  = title_element.getAttribute("text");
+        String article_title = title_element.getAttribute("text");
 
         Assert.assertEquals(
-                "We see unexpected title" ,
+                "We see unexpected title",
                 "Java (programming language)",
                 article_title
         );
-    }
+    }*/
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
 
@@ -181,15 +187,16 @@ public class FirstTest {
         return element;
     }
 
-    private void textInWebElementIsPresentAndEqual (By by, String webElementTextIsEqual,  String error_message, long timeoutInSeconds) {
+    private void waitForElementAndCompareTextInIt(By by, String webElementTextIsEqual, String error_message, long timeoutInSeconds) {
 
-        WebElement element = waitForElementPresent(by, error_message, 5);
-        WebElement title_element = waitForElementPresent(
-                By.id("org.wikipedia:id/view_page_title_text"),
-                "cannot find article Title",
-                15
+        WebElement search_input = waitForElementPresent(by, error_message, timeoutInSeconds);
+
+        String textInSearchInput = search_input.getAttribute("text");
+        Assert.assertEquals(
+                "We see unexpected text in search input",
+                webElementTextIsEqual,
+                textInSearchInput
         );
-
     }
 
 
