@@ -69,6 +69,20 @@ public class FirstTest {
                 5
         );
 
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Java",
+                "Cannot find search input",
+                5
+        );
+
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Cannot find search field",
+                5
+        );
+
+
         waitForElementAndClick(
                 By.id("org.wikipedia:id/search_close_btn"),
                 "Cannot find X to cancel search",
@@ -120,4 +134,13 @@ public class FirstTest {
                 ExpectedConditions.invisibilityOfElementLocated(by)
         );
     }
+
+    private WebElement waitForElementAndClear(By by, String error_message, long timeoutInSeconds) {
+
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        element.clear();
+        return element;
+    }
+
+
 }
