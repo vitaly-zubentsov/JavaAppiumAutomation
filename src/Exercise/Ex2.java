@@ -16,7 +16,6 @@ import java.net.URL;
 
 public class Ex2 {
 
-
     private AppiumDriver driver;
 
     @Before
@@ -42,7 +41,7 @@ public class Ex2 {
     }
 
     @Test
-    public void testForExercise4() {
+    public void testForExercise2() {
 
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),

@@ -40,6 +40,7 @@ public class FirstTest {
 
     @Test
     public void testForExercise4() {
+
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "Cannot find 'Search Wikipedia'  input",
@@ -52,12 +53,6 @@ public class FirstTest {
                 "Cannot find search input",
                 5
         );
-
-
-
-
-
-
     }
 
     @Test
@@ -76,7 +71,7 @@ public class FirstTest {
                 5
         );
 
-     /*   waitForElementAndSendKeys(
+       waitForElementAndSendKeys(
                 By.xpath("//*[contains(@text,'Search…')]"),
                 "Java",
                 "Cannot find search input",
@@ -87,10 +82,10 @@ public class FirstTest {
                 By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
                 "Cannot find 'Object-oriented programming language' topic searching by 'JAVA'",
                 15
-        );*/
+        );
     }
 
-   /* @Test
+    @Test
     public void testCancelSearch() {
 
         waitForElementAndClick(
@@ -162,7 +157,7 @@ public class FirstTest {
                 "Java (programming language)",
                 article_title
         );
-    }*/
+    }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
 
