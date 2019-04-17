@@ -39,6 +39,28 @@ public class FirstTest {
     }
 
     @Test
+    public void testForExercise4() {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia'  input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Java",
+                "Cannot find search input",
+                5
+        );
+
+
+
+
+
+
+    }
+
+    @Test
     public void firstTest() {
 
         waitForElementAndClick(
