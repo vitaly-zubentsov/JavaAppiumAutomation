@@ -64,13 +64,6 @@ public class FirstTest {
                 5
         );
 
-        waitForElementAndCompareTextInIt(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Search…",
-                "Cannot find search input",
-                5
-        );
-
        waitForElementAndSendKeys(
                 By.xpath("//*[contains(@text,'Search…')]"),
                 "Java",
@@ -203,18 +196,5 @@ public class FirstTest {
         element.clear();
         return element;
     }
-
-    private void waitForElementAndCompareTextInIt(By by, String webElementTextIsEqual, String error_message, long timeoutInSeconds) {
-
-        WebElement search_input = waitForElementPresent(by, error_message, timeoutInSeconds);
-
-        String textInSearchInput = search_input.getAttribute("text");
-        Assert.assertEquals(
-                "We see unexpected text in search input",
-                webElementTextIsEqual,
-                textInSearchInput
-        );
-    }
-
 
 }
