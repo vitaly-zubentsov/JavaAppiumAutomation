@@ -45,7 +45,7 @@ public class Ex4 {
     }
 
     @Test
-    public void testForExercise3() {
+    public void testForExercise4() {
 
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
