@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -187,7 +188,7 @@ public class FirstTest {
     @Test
     public void saveFirstArticleToMyList() {
 
-        String name_of_folder= "Learning programming";
+        String name_of_folder = "Learning programming";
 
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
@@ -283,8 +284,7 @@ public class FirstTest {
     }
 
     @Test
-    public void testAmountOfNotEmptySearch(){
-
+    public void testAmountOfNotEmptySearch() {
 
 
         waitForElementAndClick(
@@ -319,7 +319,7 @@ public class FirstTest {
     }
 
     @Test
-    public void testAmountOfEmptySearch(){
+    public void testAmountOfEmptySearch() {
 
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
@@ -348,6 +348,69 @@ public class FirstTest {
                 By.xpath(search_result_locator),
                 "We've found some results by request - " + search_line
         );
+    }
+
+
+    @Test
+    public void testChangeScreenOrientationOnSearchResult() {
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia'  input",
+                5
+        );
+
+        String search_line = "Java";
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                search_line,
+                "Cannot find search input",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Object-oriented programming language']"),
+                "Cannot find 'Object-oriented programming language' topic searching by " + search_line,
+                15
+        );
+
+        String title_before_rotation = waitForElementAndGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text",
+                "Cannot find title of article",
+                15
+        );
+
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+
+        String title_after_rotation = waitForElementAndGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text",
+                "Cannot find title of article",
+                15
+        );
+
+        Assert.assertEquals(
+                "Article title have been changed after screen rotation",
+                title_before_rotation,
+                title_after_rotation
+        );
+
+        driver.rotate(ScreenOrientation.PORTRAIT);
+
+        String title_after_second_rotation = waitForElementAndGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text",
+                "Cannot find title of article",
+                15
+        );
+
+        Assert.assertEquals(
+                "Article title have been changed after second screen rotation",
+                title_before_rotation,
+                title_after_second_rotation
+        );
+
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
@@ -443,13 +506,13 @@ public class FirstTest {
         int right_x = left_x + element.getSize().getWidth();
         int upper_y = element.getLocation().getY();
         int lower_y = upper_y + element.getSize().getHeight();
-        int middle_y = (upper_y + lower_y)/2;
+        int middle_y = (upper_y + lower_y) / 2;
 
         TouchAction action = new TouchAction(driver);
         action.
-                press(right_x , middle_y).
+                press(right_x, middle_y).
                 waitAction(300).
-                moveTo(left_x , middle_y).
+                moveTo(left_x, middle_y).
                 release().
                 perform();
 
@@ -457,11 +520,11 @@ public class FirstTest {
 
     private int getAmountOfElements(By by) {
 
-        List elements = driver.findElements(by) ;
+        List elements = driver.findElements(by);
         return elements.size();
     }
 
-    private void assertElementNotPresent(By by, String error_message){
+    private void assertElementNotPresent(By by, String error_message) {
 
         int amount_of_elements = getAmountOfElements(by);
         if (amount_of_elements > 0) {
@@ -470,5 +533,10 @@ public class FirstTest {
         }
     }
 
+    private String waitForElementAndGetAttribute(By by, String attribute, String error_message, long timeoutInSeconds) {
+
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        return element.getAttribute(attribute);
+    }
 
 }
