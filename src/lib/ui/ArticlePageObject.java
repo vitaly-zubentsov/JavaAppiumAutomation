@@ -11,11 +11,19 @@ public class ArticlePageObject extends MainPageObject {
             FOOTER_ELEMENT = "//*[@text='View page in browser']",
             OPTIONS_BUTTON = "//android.widget.ImageView[contains(@content-desc,'More options')]",
             OPTIONS_ADD_TO_MY_LIST = "//*[@text='Add to reading list']",
+            ADD_TO_EXIST_FOLDER_TPL = "//*[@text='{EXIST_FOLDER}']",
             ADD_TO_MY_LIST_OVERLAY = "org.wikipedia:id/onboarding_button",
             MY_LIST_NAME_INPUT = "org.wikipedia:id/text_input",
             MY_LIST_OK_BUTTON = "//*[@text='OK']",
             CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton[contains(@content-desc,'Navigate up')]";
 
+    /* TEMPLATES METHODS */
+    private static String getFolderXpathByName(String name_of_folder) {
+
+        return ADD_TO_EXIST_FOLDER_TPL.replace("{EXIST_FOLDER}", name_of_folder);
+    }
+
+    /* TEMPLATES METHODS */
 
     public ArticlePageObject(AppiumDriver driver) {
 
@@ -42,7 +50,7 @@ public class ArticlePageObject extends MainPageObject {
         );
     }
 
-    public void addArticleToMyList(String name_of_folder) {
+    public void addArticleToMyListInNewFolder(String name_of_folder) {
 
         this.waitForElementAndClick(
                 By.xpath(OPTIONS_BUTTON),
@@ -91,4 +99,27 @@ public class ArticlePageObject extends MainPageObject {
                 5
         );
     }
+
+    public void addArticleToMyListInExistFolder(String name_of_folder) {
+
+        this.waitForElementAndClick(
+                By.xpath(OPTIONS_BUTTON),
+                "Cannot find button to open article options",
+                5
+        );
+
+        this.waitForElementAndClick(
+                By.xpath(OPTIONS_ADD_TO_MY_LIST),
+                "Cannot find option to add article to reading list",
+                5
+        );
+
+
+        this.waitForElementAndClick(
+                By.xpath( getFolderXpathByName(name_of_folder)),
+                "Cannot find created folder '" + name_of_folder + "' in reading list",
+                5
+        );
+    }
+
 }

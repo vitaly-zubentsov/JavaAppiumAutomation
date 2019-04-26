@@ -73,5 +73,16 @@ public class MyListsPageObject extends MainPageObject {
 
     }
 
+    public void openArticleByTitle(String article_title){
+
+        String article_xpath = getSavedArticleXpathByTitle(article_title);
+        this.waitForElementAndClick(
+                By.xpath(article_xpath),
+                "Cannot find and click article by title " + article_title,
+                5
+        );
+
+    }
+
 
 }
