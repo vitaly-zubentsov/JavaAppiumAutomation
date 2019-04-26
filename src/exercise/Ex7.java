@@ -3,6 +3,7 @@ package exercise;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -33,6 +34,7 @@ public class Ex7 {
 
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        driver.rotate(ScreenOrientation.PORTRAIT);
     }
 
     @After
@@ -79,7 +81,7 @@ public class Ex7 {
                 15
         );
 
-        assertArticleTitlesIsEqual(
+        Assert.assertEquals(
                 "Article title have been changed after screen rotation",
                 title_before_rotation,
                 title_after_rotation
@@ -89,15 +91,6 @@ public class Ex7 {
 
     }
 
-    private void assertArticleTitlesIsEqual(String error_message, String title_before_rotation, String title_after_rotation) {
-
-        if (!title_before_rotation.equals(title_after_rotation)) {
-
-            driver.rotate(ScreenOrientation.PORTRAIT);
-            throw new AssertionError(error_message);
-        }
-
-    }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
 
@@ -111,14 +104,14 @@ public class Ex7 {
 
     private WebElement waitForElementAndClick(By by, String error_message, long timeoutInSeconds) {
 
-        WebElement element = waitForElementPresent(by, error_message, 5);
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.click();
         return element;
     }
 
     private WebElement waitForElementAndSendKeys(By by, String value, String error_message, long timeoutInSeconds) {
 
-        WebElement element = waitForElementPresent(by, error_message, 5);
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.sendKeys(value);
         return element;
     }
