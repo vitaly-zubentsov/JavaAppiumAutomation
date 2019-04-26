@@ -153,4 +153,13 @@ public class MainPageObject {
 
         return driver.findElements(by);
     }
+
+    public void assertElementPresent(By by, String error_message) {
+
+        int amount_of_elements = getAmountOfElements(by);
+        if (amount_of_elements == 0) {
+            String default_message = "An element " + by.toString() + " supposed to be not present";
+            throw new AssertionError(error_message + " " + default_message);
+        }
+    }
 }

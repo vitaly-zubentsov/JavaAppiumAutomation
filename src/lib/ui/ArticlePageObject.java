@@ -122,4 +122,12 @@ public class ArticlePageObject extends MainPageObject {
         );
     }
 
+    public void assertTitleIsPresent(){
+
+        assertElementPresent(
+                By.id(TITLE),
+                "Cannot find title of article"
+        );
+    }
+
 }
