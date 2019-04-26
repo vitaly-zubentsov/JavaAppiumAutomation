@@ -1,7 +1,11 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public class SearchPageObject extends MainPageObject {
 
@@ -11,7 +15,8 @@ public class SearchPageObject extends MainPageObject {
             SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
             SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
             SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_container']//*[@resource-id='org.wikipedia:id/page_list_item_container']",
-            SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']";
+            SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
+            SEARCH_EMPTY_IMAGE = "org.wikipedia:id/search_empty_image";
 
 
     public SearchPageObject(AppiumDriver driver) {
@@ -35,28 +40,47 @@ public class SearchPageObject extends MainPageObject {
 
     public void typeSearchLine(String search_line) {
 
-        this.waitForElementAndSendKeys(By.xpath(SEARCH_INPUT), search_line, "Cannot find and type into search input", 5);
+        this.waitForElementAndSendKeys(
+                By.xpath(SEARCH_INPUT),
+                search_line,
+                "Cannot find and type into search input",
+                5
+        );
     }
 
     public void waitForSearchResult(String substring) {
 
         String search_result_xpath = getResultSearchElement(substring);
-        this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find search result with substring " + substring);
+        this.waitForElementPresent(
+                By.xpath(search_result_xpath),
+                "Cannot find search result with substring " + substring
+        );
     }
 
     public void waitForCancelButtonToAppear() {
 
-        this.waitForElementPresent(By.id(SEARCH_CANCEL_BUTTON), "Cannot find search cancel button", 5);
+        this.waitForElementPresent(
+                By.id(SEARCH_CANCEL_BUTTON),
+                "Cannot find search cancel button",
+                5
+        );
     }
 
     public void waitForCancelButtonToDisappear() {
 
-        this.waitForElementNotPresent(By.id(SEARCH_CANCEL_BUTTON), "Search cancel button is still present", 5);
+        this.waitForElementNotPresent(
+                By.id(SEARCH_CANCEL_BUTTON),
+                "Search cancel button is still present",
+                5);
     }
 
     public void clickCancelSearch() {
 
-        this.waitForElementAndClick(By.id(SEARCH_CANCEL_BUTTON), "Cannot find and click search cancel button", 5);
+        this.waitForElementAndClick(
+                By.id(SEARCH_CANCEL_BUTTON),
+                "Cannot find and click search cancel button",
+                5
+        );
 
     }
 
@@ -79,16 +103,41 @@ public class SearchPageObject extends MainPageObject {
 
     public void waitForEmptyResultsLabel() {
 
-        this.waitForElementPresent(By.xpath(SEARCH_EMPTY_RESULT_ELEMENT), "Cannot find empty result element ", 15);
+        this.waitForElementPresent(
+                By.xpath(SEARCH_EMPTY_RESULT_ELEMENT),
+                "Cannot find empty result element ",
+                15
+        );
     }
 
     public void assertThereIsNoResultOfSearch() {
 
 
-       this.assertElementNotPresent(
+        this.assertElementNotPresent(
                 By.xpath(SEARCH_RESULT_ELEMENT),
                 "We supposed not to find any results"
         );
     }
 
+    public void waitForResultListOfSearchAndCheckQuantity() {
+
+
+        List webElements = waitForElementsIsPresentAndGetListOfThem(
+                By.xpath(SEARCH_RESULT_ELEMENT),
+                "Result List Of Search is not present",
+                5);
+
+        Assert.assertTrue(
+                "Quantity of ResultSearchList is less than 2",
+                webElements.size() > 1
+        );
+    }
+
+    public void waitForEmptySearchImage() {
+        waitForElementPresent(
+                By.id(SEARCH_EMPTY_IMAGE),
+                "Result list of search is still present on the page",
+                5
+        );
+    }
 }

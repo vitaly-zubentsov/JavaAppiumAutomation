@@ -146,4 +146,11 @@ public class MainPageObject {
         return element.getAttribute(attribute);
     }
 
+
+    public List waitForElementsIsPresentAndGetListOfThem(By by, String error_message, long timeoutInSeconds) {
+
+        waitForElementPresent(by, error_message, timeoutInSeconds);
+
+        return driver.findElements(by);
+    }
 }
