@@ -3,7 +3,6 @@ package lib.ui;
 import io.appium.java_client.AppiumDriver;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
@@ -13,7 +12,8 @@ public class SearchPageObject extends MainPageObject {
             SEARCH_INIT_ELEMENT = "//*[contains(@text,'Search Wikipedia')]",
             SEARCH_INPUT = "//*[contains(@text,'Search…')]",
             SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
-            SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
+            SEARCH_RESULT_BY_SUBSTRING_TITLE_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
+            SEARCH_RESULT_BY_SUBSTRINGS_TITLE_AND_DESCRIPTION_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{TITLE}']//..//*[@text='{DESCRIPTION}']",
             SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_container']//*[@resource-id='org.wikipedia:id/page_list_item_container']",
             SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
             SEARCH_EMPTY_IMAGE = "org.wikipedia:id/search_empty_image",
@@ -26,9 +26,16 @@ public class SearchPageObject extends MainPageObject {
     }
 
     /* TEMPLATES METHODS */
-    private static String getResultSearchElement(String substring) {
+    private static String getResultSearchElementByTitle(String substring) {
 
-        return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
+        return SEARCH_RESULT_BY_SUBSTRING_TITLE_TPL.replace("{SUBSTRING}", substring);
+    }
+
+    private static String getResultSearchElementByTitleAndDescription(String title, String description) {
+
+        return SEARCH_RESULT_BY_SUBSTRINGS_TITLE_AND_DESCRIPTION_TPL.
+                replace("{TITLE}", title).
+                replace("{DESCRIPTION}", description);
     }
     /* TEMPLATES METHODS */
 
@@ -51,7 +58,7 @@ public class SearchPageObject extends MainPageObject {
 
     public void waitForSearchResult(String substring) {
 
-        String search_result_xpath = getResultSearchElement(substring);
+        String search_result_xpath = getResultSearchElementByTitle(substring);
         this.waitForElementPresent(
                 By.xpath(search_result_xpath),
                 "Cannot find search result with substring " + substring
@@ -87,7 +94,7 @@ public class SearchPageObject extends MainPageObject {
 
     public void clickByArticleWithSubstring(String substring) {
 
-        String search_result_xpath = getResultSearchElement(substring);
+        String search_result_xpath = getResultSearchElementByTitle(substring);
         this.waitForElementAndClick(By.xpath(search_result_xpath), "Cannot find and click search result with substring " + substring, 10);
     }
 
@@ -147,6 +154,15 @@ public class SearchPageObject extends MainPageObject {
         return waitForElementsIsPresentAndGetListOfThem(
                 By.xpath(SEARCH_RESULT_ELEMENTS),
                 "Result List Of Search is not present",
+                5);
+    }
+
+    public void waitForElementByTitleAndDescription(String title, String description) {
+
+        String search_result_xpath = getResultSearchElementByTitleAndDescription(title,description);
+        waitForElementPresent(
+                By.xpath(search_result_xpath),
+                "Result element with title " + title + " and description " + description + " is not present",
                 5);
     }
 

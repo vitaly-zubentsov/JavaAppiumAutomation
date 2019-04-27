@@ -3,33 +3,31 @@ package exercise;
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
 import org.junit.Test;
-import org.openqa.selenium.WebElement;
 
 import java.util.List;
+
+import static java.util.Arrays.asList;
 
 public class Ex9 extends CoreTestCase {
 
     @Test
-    public void testForExercise4() {
+    public void testForExercise9() {
 
-        String searchWord = "JAVA";
         SearchPageObject SearchPageObject = new SearchPageObject(driver);
 
         SearchPageObject.initSearchInput();
-        SearchPageObject.typeSearchLine(searchWord);
-        List<WebElement> result_list = SearchPageObject.getResultListOfSearch();
-
-        for (WebElement element : result_list) {
-            assertTrue(
-                    "Result of search don't contain search word = " + searchWord,
-                    element.getText().toLowerCase().contains(searchWord.toLowerCase())
-            );
-        }
-
+        SearchPageObject.typeSearchLine("Java");
+        List result_list = SearchPageObject.getResultListOfSearch();
         assertTrue(
-                "Quantity of ResultSearchList is less than 2",
-                result_list.size() > 1
+                "Quantity of ResultSearchList is less than 3",
+                result_list.size() >= 3
         );
 
+        List<String> list_of_title = asList("Java", "JavaScript", "Java (programming language)");
+        List<String> list_of_description = asList("Island of Indonesia", "Programming language", "Object-oriented programming language");
+
+        for (int i = 0; i < list_of_title.size(); i++) {
+            SearchPageObject.waitForElementByTitleAndDescription(list_of_title.get(i), list_of_description.get(i));
+        }
     }
 }
