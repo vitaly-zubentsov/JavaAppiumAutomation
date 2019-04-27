@@ -16,7 +16,8 @@ public class SearchPageObject extends MainPageObject {
             SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
             SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_container']//*[@resource-id='org.wikipedia:id/page_list_item_container']",
             SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
-            SEARCH_EMPTY_IMAGE = "org.wikipedia:id/search_empty_image";
+            SEARCH_EMPTY_IMAGE = "org.wikipedia:id/search_empty_image",
+            SEARCH_RESULT_ELEMENTS = "//*[@resource-id='org.wikipedia:id/page_list_item_title']";
 
 
     public SearchPageObject(AppiumDriver driver) {
@@ -140,4 +141,13 @@ public class SearchPageObject extends MainPageObject {
                 5
         );
     }
+
+    public List getResultListOfSearch() {
+
+        return waitForElementsIsPresentAndGetListOfThem(
+                By.xpath(SEARCH_RESULT_ELEMENTS),
+                "Result List Of Search is not present",
+                5);
+    }
+
 }
