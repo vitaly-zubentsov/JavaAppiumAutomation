@@ -1,7 +1,6 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 
 import java.util.List;
@@ -127,19 +126,6 @@ public class SearchPageObject extends MainPageObject {
         );
     }
 
-    public void waitForResultListOfSearchAndCheckQuantity() {
-
-
-        List webElements = waitForElementsIsPresentAndGetListOfThem(
-                By.xpath(SEARCH_RESULT_ELEMENT),
-                "Result List Of Search is not present",
-                5);
-
-        Assert.assertTrue(
-                "Quantity of ResultSearchList is less than 2",
-                webElements.size() > 1
-        );
-    }
 
     public void waitForEmptySearchImage() {
         waitForElementPresent(
@@ -155,6 +141,11 @@ public class SearchPageObject extends MainPageObject {
                 By.xpath(SEARCH_RESULT_ELEMENTS),
                 "Result List Of Search is not present",
                 5);
+    }
+
+    public int getQuantityOfResultList(){
+
+        return getResultListOfSearch().size();
     }
 
     public void waitForElementByTitleAndDescription(String title, String description) {

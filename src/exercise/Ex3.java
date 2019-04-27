@@ -13,7 +13,11 @@ public class Ex3 extends CoreTestCase {
         SearchPageObject SearchPageObject = new SearchPageObject(driver);
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.waitForResultListOfSearchAndCheckQuantity();
+
+        assertTrue(
+                "Quantity of ResultSearchList is less than 2",
+                SearchPageObject.getQuantityOfResultList() > 1);
+
         SearchPageObject.clickCancelSearch();
         SearchPageObject.waitForEmptySearchImage();
     }
