@@ -181,12 +181,7 @@ public class MainPageObject {
         } else if (by_type.equals("id")) {
             return By.id(locator);
         } else {
-            try {
-                throw new IllegalAccessException("Cannot get type of locator " + locator_with_type);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            throw new IllegalArgumentException("Cannot get type of locator " + locator_with_type);
         }
-        return null;
     }
 }
