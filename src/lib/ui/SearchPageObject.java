@@ -4,18 +4,18 @@ import io.appium.java_client.AppiumDriver;
 
 import java.util.List;
 
-public class SearchPageObject extends MainPageObject {
+abstract public class SearchPageObject extends MainPageObject {
 
-    private static final String
-            SEARCH_INIT_ELEMENT = "xpath://*[contains(@text,'Search Wikipedia')]",
-            SEARCH_INPUT = "xpath://*[contains(@text,'Search…')]",
-            SEARCH_CANCEL_BUTTON = "id:org.wikipedia:id/search_close_btn",
-            SEARCH_RESULT_BY_SUBSTRING_TITLE_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
-            SEARCH_RESULT_BY_SUBSTRINGS_TITLE_AND_DESCRIPTION_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{TITLE}']//..//*[@text='{DESCRIPTION}']",
-            SEARCH_RESULT_ELEMENT = "xpath://*[@resource-id='org.wikipedia:id/search_results_container']//*[@resource-id='org.wikipedia:id/page_list_item_container']",
-            SEARCH_EMPTY_RESULT_ELEMENT = "xpath://*[@text='No results found']",
-            SEARCH_EMPTY_IMAGE = "id:org.wikipedia:id/search_empty_image",
-            SEARCH_RESULT_ELEMENTS = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title']";
+    protected static String
+            SEARCH_INIT_ELEMENT,
+            SEARCH_INPUT,
+            SEARCH_CANCEL_BUTTON,
+            SEARCH_RESULT_BY_SUBSTRING_TITLE_TPL,
+            SEARCH_RESULT_BY_SUBSTRINGS_TITLE_AND_DESCRIPTION_TPL,
+            SEARCH_RESULT_ELEMENT,
+            SEARCH_EMPTY_RESULT_ELEMENT,
+            SEARCH_EMPTY_IMAGE,
+            SEARCH_RESULT_ELEMENTS;
 
 
     public SearchPageObject(AppiumDriver driver) {
@@ -65,7 +65,7 @@ public class SearchPageObject extends MainPageObject {
 
         String search_result_xpath = getResultSearchElementByTitle(substring);
         this.waitForElementPresent(
-               search_result_xpath,
+                search_result_xpath,
                 "Cannot find search result with substring " + substring
         );
     }
@@ -73,7 +73,7 @@ public class SearchPageObject extends MainPageObject {
     public void waitForCancelButtonToAppear() {
 
         this.waitForElementPresent(
-               SEARCH_CANCEL_BUTTON,
+                SEARCH_CANCEL_BUTTON,
                 "Cannot find search cancel button",
                 5
         );
@@ -90,7 +90,7 @@ public class SearchPageObject extends MainPageObject {
     public void clickCancelSearch() {
 
         this.waitForElementAndClick(
-               SEARCH_CANCEL_BUTTON,
+                SEARCH_CANCEL_BUTTON,
                 "Cannot find and click search cancel button",
                 5
         );
@@ -110,7 +110,7 @@ public class SearchPageObject extends MainPageObject {
     public int getAmountOfFoundArticles() {
 
         this.waitForElementPresent(
-               SEARCH_RESULT_ELEMENT,
+                SEARCH_RESULT_ELEMENT,
                 "Cannot find anything by the request - ",
                 15
         );
@@ -120,7 +120,7 @@ public class SearchPageObject extends MainPageObject {
     public void waitForEmptyResultsLabel() {
 
         this.waitForElementPresent(
-               SEARCH_EMPTY_RESULT_ELEMENT,
+                SEARCH_EMPTY_RESULT_ELEMENT,
                 "Cannot find empty result element ",
                 15
         );
@@ -152,16 +152,16 @@ public class SearchPageObject extends MainPageObject {
                 5);
     }
 
-    public int getQuantityOfResultList(){
+    public int getQuantityOfResultList() {
 
         return getResultListOfSearch().size();
     }
 
     public void waitForElementByTitleAndDescription(String title, String description) {
 
-        String search_result_xpath = getResultSearchElementByTitleAndDescription(title,description);
+        String search_result_xpath = getResultSearchElementByTitleAndDescription(title, description);
         waitForElementPresent(
-               search_result_xpath,
+                search_result_xpath,
                 "Result element with title " + title + " and description " + description + " is not present",
                 5);
     }
