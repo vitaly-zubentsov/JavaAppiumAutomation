@@ -78,12 +78,16 @@ public class MainPageObject {
         int start_y = (int) (size.height * 0.8);
         int end_y = (int) (size.height * 0.2);
 
-        action.
-                press(x, start_y).
-                waitAction(timeOfSwipe).
-                moveTo(x, end_y).
-                release().
-                perform();
+        action.press(x, start_y).waitAction(timeOfSwipe);
+
+        if (Platform.getInstance().isAndroid()) {
+            action.moveTo(x, end_y);
+        } else {
+            int offset_y = (int) (size.height * -(0.8));
+            action.moveTo(0, offset_y);
+        }
+        action.release();
+        action.perform();
     }
 
     public void swipeUpQuick() {
@@ -133,7 +137,7 @@ public class MainPageObject {
         return element_location_by_y < screen_size_by_y;
     }
 
-    public void clickElementToTheRightUpperCorner(String locator, String error_message){
+    public void clickElementToTheRightUpperCorner(String locator, String error_message) {
 
         WebElement element = this.waitForElementPresent(locator + "/..", error_message);
         int right_x = element.getLocation().getX();
@@ -146,7 +150,7 @@ public class MainPageObject {
         int point_to_click_y = middle_y;
 
         TouchAction action = new TouchAction(driver);
-        action.tap(point_to_click_x,point_to_click_y).perform();
+        action.tap(point_to_click_x, point_to_click_y).perform();
     }
 
     public void swipeElementToLeft(String locator, String error_messages) {
@@ -170,8 +174,8 @@ public class MainPageObject {
             int offset_x = (-1 * element.getSize().getWidth());
             action.moveTo(offset_x, 0);
         }
-                    action.release();
-                    action.perform();
+        action.release();
+        action.perform();
 
     }
 
