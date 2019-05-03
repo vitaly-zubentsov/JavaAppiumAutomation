@@ -2,6 +2,7 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
+import org.openqa.selenium.WebElement;
 
 abstract public class MyListsPageObject extends MainPageObject {
 
@@ -38,10 +39,10 @@ abstract public class MyListsPageObject extends MainPageObject {
         );
     }
 
-    public void waitForArticleToAppearByTitle(String article_title) {
+    public WebElement waitForArticleToAppearByTitle(String article_title) {
 
         String article_xpath = getSavedArticleXpathByTitle(article_title);
-        this.waitForElementPresent(
+        return this.waitForElementPresent(
                 article_xpath,
                 "Cannot find saved article by title" + article_title,
                 15
@@ -71,7 +72,7 @@ abstract public class MyListsPageObject extends MainPageObject {
         if (Platform.getInstance().isIOS()) {
             this.clickElementToTheRightUpperCorner(
                     article_xpath,
-            "cannot find saved article"
+                    "cannot find saved article"
             );
         }
 
@@ -79,16 +80,27 @@ abstract public class MyListsPageObject extends MainPageObject {
 
     }
 
-    public void openArticleByTitle(String article_title){
+    public void openArticleByTitle(String article_title) {
 
         String article_xpath = getSavedArticleXpathByTitle(article_title);
         this.waitForElementAndClick(
-               article_xpath,
+                article_xpath,
                 "Cannot find and click article by title " + article_title,
                 5
         );
 
     }
 
+
+    public String getTitleOfElementBySubstring(String article_substring_first) {
+
+        WebElement title_element = waitForArticleToAppearByTitle(article_substring_first);
+        if (Platform.getInstance().isAndroid()) {
+            return title_element.getAttribute("text");
+        } else {
+            return title_element.getAttribute("name");
+        }
+
+    }
 
 }

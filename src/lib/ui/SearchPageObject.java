@@ -1,6 +1,8 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
+import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
@@ -61,10 +63,10 @@ abstract public class SearchPageObject extends MainPageObject {
         );
     }
 
-    public void waitForSearchResult(String substring) {
+    public WebElement waitForSearchResult(String substring) {
 
         String search_result_xpath = getResultSearchElementByTitle(substring);
-        this.waitForElementPresent(
+        return this.waitForElementPresent(
                 search_result_xpath,
                 "Cannot find search result with substring " + substring
         );
@@ -166,4 +168,15 @@ abstract public class SearchPageObject extends MainPageObject {
                 5);
     }
 
+    public String getArticleTitleFromSearchList(String substring) {
+
+        WebElement title_element = waitForSearchResult(substring);
+        if (Platform.getInstance().isAndroid()) {
+            return title_element.getAttribute("text");
+        } else {
+            return title_element.getAttribute("name");
+        }
+    }
+
+    ;
 }

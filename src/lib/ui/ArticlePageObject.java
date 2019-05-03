@@ -8,14 +8,15 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     protected static String
             TITLE,
-            FOOTER_ELEMENT ,
-            OPTIONS_BUTTON ,
-            OPTIONS_ADD_TO_MY_LIST ,
+            FOOTER_ELEMENT,
+            OPTIONS_BUTTON,
+            OPTIONS_ADD_TO_MY_LIST,
             ADD_TO_EXIST_FOLDER_TPL,
             ADD_TO_MY_LIST_OVERLAY,
-            MY_LIST_NAME_INPUT ,
-            MY_LIST_OK_BUTTON ,
-            CLOSE_ARTICLE_BUTTON;
+            MY_LIST_NAME_INPUT,
+            MY_LIST_OK_BUTTON,
+            CLOSE_ARTICLE_BUTTON,
+            CLOSE_AUTH_PLACE;
 
     /* TEMPLATES METHODS */
     private static String getFolderXpathByName(String name_of_folder) {
@@ -42,7 +43,7 @@ abstract public class ArticlePageObject extends MainPageObject {
     public String getArticleTitle() {
 
         WebElement title_element = waitForTitleElement();
-        if (Platform.getInstance().isAndroid()){
+        if (Platform.getInstance().isAndroid()) {
             return title_element.getAttribute("text");
         } else {
             return title_element.getAttribute("name");
@@ -52,7 +53,7 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     public void swipeToFooter() {
 
-        if(Platform.getInstance().isAndroid()){
+        if (Platform.getInstance().isAndroid()) {
             this.swipeUpToFindElement(
                     FOOTER_ELEMENT,
                     "Cannot find the end of article",
@@ -127,7 +128,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         );
 
         this.waitForElementAndClick(
-               OPTIONS_ADD_TO_MY_LIST,
+                OPTIONS_ADD_TO_MY_LIST,
                 "Cannot find option to add article to reading list",
                 5
         );
@@ -140,7 +141,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         );
     }
 
-    public void assertTitleIsPresent(){
+    public void assertTitleIsPresent() {
 
         assertElementPresent(
                 TITLE,
@@ -148,9 +149,18 @@ abstract public class ArticlePageObject extends MainPageObject {
         );
     }
 
-    public void addArticlesToMySaved(){
+    public void addArticlesToMySaved() {
 
-        this.waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST,"Cannot find option to add article to reading list",5);
+        this.waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST, "Cannot find option to add article to reading list", 5);
     }
 
+    public  void closeAuthWindow(){
+
+        this.waitForElementAndClick(
+                CLOSE_AUTH_PLACE,
+                "Cannot find place to close auth window",
+                5
+        );
+
+    };
 }
